@@ -6,6 +6,17 @@ function getDatabaseConnection() {
     $password = "";
     $dbname = "shopping_cart2"; 
     
+    //checking whether the URL contains "herokuapp" (using Heroku)
+    if(strpos($_SERVER['HTTP_HOST'], 'herokuapp') !== false) {
+       $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+       $host = $url["host"];
+       $db   = substr($url["path"], 1);
+       $user = $url["user"];
+       $pass = $url["pass"];
+    }
+    
+    //mysql://b7cf211277e89d:59b4e319@us-cdbr-iron-east-05.cleardb.net/heroku_d81b70c8a9675ca?reconnect=true
+    
     // Create connection
     $dbConn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $dbConn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
